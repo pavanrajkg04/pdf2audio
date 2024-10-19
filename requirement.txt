@@ -1,0 +1,4 @@
+PyPDF3
+pyttsx3
+pdfplumber
+streamlit
