@@ -7,28 +7,29 @@ import os
 # Function to convert PDF to audio
 def convert_pdf_to_audio(pdf_file):
     try:
-        with open(pdf_file, 'rb') as book:
-            pdf_reader = PyPDF3.PdfFileReader(book)
-            pages = pdf_reader.numPages
-            final_text = ""
+        # Read the PDF file as bytes
+        pdf_reader = PyPDF3.PdfFileReader(pdf_file)
+        pages = pdf_reader.numPages
+        final_text = ""
 
-            with pdfplumber.open(pdf_file) as pdf:
-                for i in range(pages):
-                    page = pdf.pages[i]
-                    text = page.extract_text()
-                    if text:
-                        final_text += text
+        # Extract text from each page
+        with pdfplumber.open(pdf_file) as pdf:
+            for i in range(pages):
+                page = pdf.pages[i]
+                text = page.extract_text()
+                if text:
+                    final_text += text
 
-            if not final_text.strip():
-                return None, "Error: No text found in the PDF."
+        if not final_text.strip():
+            return None, "Error: No text found in the PDF."
 
-            # Convert text to audio
-            engine = pyttsx3.init()
-            audio_file = 'audiobook.mp3'
-            engine.save_to_file(final_text, audio_file)
-            engine.runAndWait()
+        # Convert text to audio
+        engine = pyttsx3.init()
+        audio_file = 'audiobook.mp3'
+        engine.save_to_file(final_text, audio_file)
+        engine.runAndWait()
 
-            return audio_file, "Success: Audio has been saved as 'audiobook.mp3'."
+        return audio_file, "Success: Audio has been saved as 'audiobook.mp3'."
 
     except Exception as e:
         return None, f"Error: {str(e)}"
