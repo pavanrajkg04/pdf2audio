@@ -1,7 +1,7 @@
+import streamlit as st
 import PyPDF3
 import pyttsx3
 import pdfplumber
-import streamlit as st
 import os
 
 # Function to convert PDF to audio
